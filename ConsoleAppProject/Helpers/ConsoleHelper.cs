@@ -17,6 +17,8 @@ namespace ConsoleAppProject.Helpers
     public static class ConsoleHelper
     {
 
+        public static int choiceNo;
+
         /// <summary>
         /// This method displays a list of numbered choices to the
         /// user, they can then select a choice and and the choice 
@@ -30,7 +32,7 @@ namespace ConsoleAppProject.Helpers
 
             // Get the user's choice
 
-            int choiceNo = (int)InputNumber("\n Please enter your choice > ", 
+            choiceNo = (int)InputNumber("\n Please enter your choice > ", 
                                             1, choices.Length);
             return choiceNo;
         }
@@ -103,7 +105,7 @@ namespace ConsoleAppProject.Helpers
                 if (number < min || number > max)
                 {
                     isValid = false;
-                    Console.WriteLine($"Number must be between {min} and {max}");
+                    Console.WriteLine($" Number must be between {min} and {max}");
                 }
                 else isValid = true;
 
