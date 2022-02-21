@@ -1,4 +1,5 @@
 ﻿using ConsoleAppProject.App01;
+using ConsoleAppProject.App02;
 using ConsoleAppProject.App03;
 using ConsoleAppProject.Helpers;
 using System;
@@ -15,7 +16,40 @@ namespace ConsoleAppProject
     /// </summary>
     public static class Program
     {
+
+        private static string[] choices = { "Distance Converter", "BMI Calculator" };
+        private static String choice = ConsoleHelper.choiceNo.ToString();
+
+        private static DistanceConverter Convert = new DistanceConverter();
+        private static BMI Calculator = new BMI();
+
         public static void Main(string[] args)
+        {
+            Run();
+
+        }
+
+        public static void Run()
+        {
+            OutputHeader();
+            SelectChoice();
+        }
+
+        private static void SelectChoice()
+        {
+
+            Console.WriteLine();
+            Console.WriteLine(" Select the Unit System you want to use to calculate BMI");
+            choice = ConsoleHelper.SelectChoice(choices).ToString();
+
+            if (choice == "1")
+                Convert.Run();
+
+            else if (choice == "2")
+                Calculator.Run();
+        }
+
+        private static void OutputHeader()
         {
             Console.ForegroundColor = ConsoleColor.Blue;
 
@@ -25,9 +59,6 @@ namespace ConsoleAppProject
             Console.WriteLine("                    by Tomás Pinto                ");
             Console.WriteLine(" =================================================");
             Console.WriteLine();
-
-            DistanceConverter Convert = new DistanceConverter();
-            Convert.Run();
         }
     }
 }

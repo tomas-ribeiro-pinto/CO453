@@ -4,17 +4,19 @@ using ConsoleAppProject.Helpers;
 namespace ConsoleAppProject.App01
 {
     /// <summary>
-    /// Please describe the main features of this App
+    /// This application allows a user to convert from metres, iles or feet.
     /// </summary>
     /// <author>
-    /// Tomás Pinto Version 1.0
+    /// Tomás Pinto Version 2.0
     /// </author>
     public class DistanceConverter
     {
         public const double FEET_IN_MILES = 5280;
         public const double FEET_IN_METRES = 3.28;
         public const double METRES_IN_MILES = 1609.34;
-        string[] choices = { "Miles", "Feet", "Metres" };
+
+        private string[] choices = { "Miles", "Feet", "Metres" };
+
         private String convertFrom;
         private String convertTo;
         private double fromUnit;
@@ -32,7 +34,7 @@ namespace ConsoleAppProject.App01
 
             SelectUnitFrom();
             SelectUnitTo();
-            ConvertUnits();
+            ConvertUnit();
 
         }
 
@@ -47,6 +49,9 @@ namespace ConsoleAppProject.App01
             Console.WriteLine();
         }
 
+        /// <summary>
+        /// Select a unit to convert from
+        /// </summary>
         private void SelectUnitFrom()
         {
             Console.WriteLine();
@@ -56,10 +61,10 @@ namespace ConsoleAppProject.App01
             if (choice == "1")
                 convertFrom = "Miles";
 
-            if (choice == "2")
+            else if (choice == "2")
                 convertFrom = "Feet";
 
-            if (choice == "3")
+            else if (choice == "3")
                 convertFrom = "Metres";
 
             Console.WriteLine($" You have chosen to convert {convertFrom}");
@@ -73,10 +78,10 @@ namespace ConsoleAppProject.App01
             if (choice == "1")
                 convertTo = "Miles";
 
-            if (choice == "2")
+            else if (choice == "2")
                 convertTo = "Feet";
 
-            if (choice == "3")
+            else if (choice == "3")
                 convertTo = "Metres";
 
             if (convertFrom == convertTo)
@@ -94,24 +99,24 @@ namespace ConsoleAppProject.App01
             }
         }
 
-        private void ConvertUnits()
+        private void ConvertUnit()
         {
             if (convertFrom == "Miles" && convertTo == "Feet")
                 convertExpression = FEET_IN_MILES;
 
-            if (convertFrom == "Miles" && convertTo == "Metres")
+            else if (convertFrom == "Miles" && convertTo == "Metres")
                 convertExpression = METRES_IN_MILES;
 
-            if (convertFrom == "Metres" && convertTo == "Miles")
+            else if (convertFrom == "Metres" && convertTo == "Miles")
                 convertExpression = 1 / METRES_IN_MILES;
 
-            if (convertFrom == "Metres" && convertTo == "Feet")
+            else if (convertFrom == "Metres" && convertTo == "Feet")
                 convertExpression = FEET_IN_METRES;
 
-            if (convertFrom == "Feet" && convertTo == "Metres")
+            else if (convertFrom == "Feet" && convertTo == "Metres")
                 convertExpression = 1 / FEET_IN_METRES;
 
-            if (convertFrom == "Feet" && convertTo == "Miles")
+            else if (convertFrom == "Feet" && convertTo == "Miles")
                 convertExpression = 1 / FEET_IN_MILES;
 
             InputDistance(convertFrom);
@@ -122,8 +127,8 @@ namespace ConsoleAppProject.App01
 
         private double InputDistance(String convertFrom)
         {
-            Console.Write($" Please input the distance in {convertFrom} > ");
-            return fromUnit = Convert.ToDouble(Console.ReadLine());
+            String prompt = $" Please input the distance in {convertFrom} > ";
+            return fromUnit = ConsoleHelper.InputNumber(prompt);
         }
         
         private void OutputDistance()
@@ -133,8 +138,15 @@ namespace ConsoleAppProject.App01
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(" Do you want to convert any other numbers? yes/no");
             if (Console.ReadLine() == "yes")
+            {
                 Console.WriteLine();
                 Run();
+            }
+            else
+            {
+                Console.WriteLine();
+                Program.Run();
+            }
         }
     }
 }

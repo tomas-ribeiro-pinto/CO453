@@ -71,12 +71,25 @@ namespace ConsoleAppProject.Helpers
                 try
                 {
                     number = Convert.ToDouble(value);
-                    isValid = true;
+                    if (number > 0)
+                    {
+                        isValid = true;
+                    }
+
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(" Please input a number greater than zero");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        isValid = false;
+                    }
                 }
                 catch (Exception)
                 {
                     isValid = false;
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(" INVALID NUMBER!");
+                    Console.ForegroundColor = ConsoleColor.Green;
                 }
 
             } while (!isValid);
