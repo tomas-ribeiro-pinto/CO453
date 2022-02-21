@@ -39,7 +39,7 @@ namespace ConsoleAppProject
         {
 
             Console.WriteLine();
-            Console.WriteLine(" Select the Unit System you want to use to calculate BMI");
+            Console.WriteLine(" Select the app you want to launch");
             choice = ConsoleHelper.SelectChoice(choices).ToString();
 
             if (choice == "1")
