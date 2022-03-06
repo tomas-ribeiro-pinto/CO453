@@ -1,0 +1,28 @@
+﻿@{ ViewData["Title"] = "Distance Converter"; }
+
+<h1 class="text-center jumbotron">BMI Calculator</h1>
+
+<div class="container align-self-center">
+    <form>
+        <p>Please select the unit you want to convert from:</p>
+        <option>Miles</option>
+        <option>Feet</option>
+        <option>Metres</option>
+
+        <br>
+
+        <p>Please select the unit you want to convert to:</p>
+        <input type="radio" id="miles" name="fromUnit" value="miles">
+        <label for="html">Miles</label><br>
+        <input type="radio" id="feet" name="fromUnit" value="feet">
+        <label for="css">Feet</label><br>
+        <input type="radio" id="metres" name="fromUnit" value="metres">
+        <label for="javascript">Metres</label><br><br>
+        <input type="submit" value="Submit">
+    </form>
+    <form>
+        <input type="text" placeholder="Input your distance" />
+        <br />
+        <input type="submit" class="btn btn-info" />
+    </form>
+</div>

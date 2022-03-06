@@ -4,10 +4,11 @@ using ConsoleAppProject.Helpers;
 namespace ConsoleAppProject.App01
 {
     /// <summary>
-    /// This application allows a user to convert from metres, iles or feet.
+    /// This application allows a user to convert from metres, miles or feet.
+    /// There is also a available Web Application Version of this app.
     /// </summary>
     /// <author>
-    /// Tomás Pinto Version 2.0
+    /// Tomás Pinto Version 6th March 2022
     /// </author>
     public class DistanceConverter
     {
@@ -15,18 +16,23 @@ namespace ConsoleAppProject.App01
         public const double FEET_IN_METRES = 3.28;
         public const double METRES_IN_MILES = 1609.34;
 
+        public const string MILES = "Miles";
+        public const string FEET = "Feet";
+        public const string METRES = "Metres";
+
         private string[] choices = { "Miles", "Feet", "Metres" };
 
-        private String convertFrom;
-        private String convertTo;
-        private double fromUnit;
-        private double toUnit;
-        private double convertExpression;
+        public string convertFrom { get; set; }
+        public string convertTo { get; set; }
+
+        public double FromDistance { get; set; }
+        public double ToDistance { get; set; }
+        public double convertExpression { get; set; }
         private String choice = ConsoleHelper.choiceNo.ToString();
 
         /// <summary>
-        /// This method runs the converter app.
-        /// It allows for converting miles, metres or feet.
+        /// This method runs the converter console app.
+        /// It allows to convert miles, metres or feet.
         /// </summary>
         public void Run()
         {
@@ -36,8 +42,13 @@ namespace ConsoleAppProject.App01
             SelectUnitTo();
             ConvertUnit();
 
+            CalculateDistance();
         }
 
+        /// <summary>
+        /// Outputs the header at the top of the app with
+        /// a brief summary of the application function.
+        /// </summary>
         private static void OutputHeader()
         {
             Console.ForegroundColor = ConsoleColor.Green;
@@ -50,12 +61,14 @@ namespace ConsoleAppProject.App01
         }
 
         /// <summary>
-        /// Select a unit to convert from
+        /// Select a unit (Miles, Feet or Metres) to convert from
         /// </summary>
         private void SelectUnitFrom()
         {
             Console.WriteLine();
             Console.WriteLine(" Select the unit you want to convert from");
+            // Uses prompt method from ConsoleHelper
+            // to ask the user for a choice 
             choice = ConsoleHelper.SelectChoice(choices).ToString();
 
             if (choice == "1")
@@ -70,6 +83,9 @@ namespace ConsoleAppProject.App01
             Console.WriteLine($" You have chosen to convert {convertFrom}");
         }
 
+        /// <summary>
+        /// Select a unit (Miles, Feet or Metres) to convert to
+        /// </summary>
         private void SelectUnitTo()
         {
             Console.WriteLine(" Select the unit you want to convert to");
@@ -84,6 +100,8 @@ namespace ConsoleAppProject.App01
             else if (choice == "3")
                 convertTo = "Metres";
 
+            // If the user tries to convert from to the same unit
+            // Display this error:
             if (convertFrom == convertTo)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -99,7 +117,11 @@ namespace ConsoleAppProject.App01
             }
         }
 
-        private void ConvertUnit()
+        /// <summary>
+        /// This method associates the Convert Expression
+        /// for the specific case of the user's choices
+        /// </summary>
+        public void ConvertUnit()
         {
             if (convertFrom == "Miles" && convertTo == "Feet")
                 convertExpression = FEET_IN_MILES;
@@ -119,22 +141,37 @@ namespace ConsoleAppProject.App01
             else if (convertFrom == "Feet" && convertTo == "Miles")
                 convertExpression = 1 / FEET_IN_MILES;
 
-            InputDistance(convertFrom);
-            Math.Round(toUnit = fromUnit * convertExpression, 1);
-            OutputDistance();
-
         }
 
+        /// <summary>
+        /// Convert distance inputted by the user using
+        /// the above Convert Expression.
+        /// </summary>
+        private void CalculateDistance()
+        {
+            InputDistance(convertFrom);
+            Math.Round(ToDistance = FromDistance * convertExpression, 1);
+            OutputDistance();
+        }
+
+        /// <summary>
+        /// Input Distance method using Console Helper Validation Methods
+        /// </summary>
+        /// <param name="convertFrom">What unit is being converted</param>
+        /// <returns>Distance to be converted</returns>
         private double InputDistance(String convertFrom)
         {
             String prompt = $" Please input the distance in {convertFrom} > ";
-            return fromUnit = ConsoleHelper.InputNumber(prompt);
+            return FromDistance = ConsoleHelper.InputNumber(prompt);
         }
-        
+
+        /// <summary>
+        /// Outputs the convertion and asks for further convertions
+        /// </summary>
         private void OutputDistance()
         {
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(" " + fromUnit + $" {convertFrom} is " + toUnit + $" {convertTo}!");
+            Console.WriteLine(" " + FromDistance + $" {convertFrom} is " + ToDistance + $" {convertTo}!");
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(" Do you want to convert any other numbers? yes/no");
             if (Console.ReadLine() == "yes")
@@ -147,6 +184,16 @@ namespace ConsoleAppProject.App01
                 Console.WriteLine();
                 Program.Run();
             }
+        }
+
+        /// <summary>
+        /// This method is used by the web version of this application
+        /// to convert the distance inputted by the user on the web app
+        /// </summary>
+        public void ConvertWebDistance()
+        {
+            ConvertUnit();
+            ToDistance = FromDistance * convertExpression;
         }
     }
 }

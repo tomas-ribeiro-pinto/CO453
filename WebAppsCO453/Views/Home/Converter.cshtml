@@ -1,0 +1,29 @@
+﻿@page
+@model WebAppsCO453.Views.Home.DistanceConverterModel
+@using ConsoleAppProject.App01;
+@{
+    ViewData["Title"] = "Distance Converter";
+}
+
+<h1 class="text-center jumbotron">BMI Calculator</h1>
+
+<div class="container align-self-center">
+    <form method="post">
+        <p>Please select the unit you want to convert from:</p>
+        <select asp-for="@Model.App01.convertFrom">
+            <option>@DistanceConverter.MILES</option>
+            <option>@DistanceConverter.FEET</option>
+            <option>@DistanceConverter.METRES</option>
+        </select>
+        <p>Please select the unit you want to convert to:</p>
+        <select asp-for="@Model.App01.convertTo">
+            <option>@DistanceConverter.MILES</option>
+            <option>@DistanceConverter.FEET</option>
+            <option>@DistanceConverter.METRES</option>
+        </select>
+        <input asp-for="@Model.Distance" type="text" placeholder="Input your distance in @Model.App01.convertFrom" />
+        <br />
+        <input type="submit" class="btn btn-info" />
+        <input asp-for="@Model.App01.toUnit" tyoe="text" readonly placeholder="To Distance"/>
+    </form>
+</div>

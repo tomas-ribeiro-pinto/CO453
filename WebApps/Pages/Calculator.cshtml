@@ -1,0 +1,48 @@
+﻿@page
+@model WebAppsCO453.Views.Home.CalculatorModel
+@{ ViewData["Title"] = "BMI Calculator"; }
+
+<h1 class="text-center jumbotron">Body Mass Index Calculator - App02</h1>
+
+<div class="container col-md-6 align-self-center">
+    <form id="form" class="text-center" method="post">
+        <p>
+            Please select the unit system to calculate your BMI:
+            <select id="unitSystem" asp-for="@Model.App02.UnitSystem">
+                <option>Metric System</option>
+                <option>Imperial System</option>
+            </select>
+        </p>
+
+        <p>
+            Input your weight (Kilograms or Pounds)
+            <input id="weight" asp-for="@Model.App02.Weight" type="text" />
+        </p>
+        <p>
+            Input your height (Metres or Inches)
+            <input id="height" asp-for="@Model.App02.Height" type="text" />
+        </p>
+        <br>
+        <br>
+        <p class="lead">
+            <button onclick="event.preventDefault(); checkData()" class="btn btn-info">Calculate BMI</button>
+            @ViewData["Message"]
+        </p>
+    </form>
+    <script>
+        function checkData()
+        {
+            var weight = document.getElementById("weight").value;
+            var height = document.getElementById("height").value;
+
+            // Validate if the input is a number
+            if (isNaN(weight) || isNaN(height))
+            {
+                alert("Please input only numbers!");
+            }
+            else {
+                document.getElementById("form").submit();
+            }
+        }
+    </script>
+</div>
