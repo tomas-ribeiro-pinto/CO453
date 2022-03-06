@@ -135,6 +135,17 @@ namespace ConsoleAppProject.App02
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"                         {OutputValue}");
             Console.WriteLine();
+            Console.WriteLine("You should consider a lower body mass index (BMI) if you are either\nblack, Asian or from minority ethnic groups\n");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("WHO Weight Status | BMI kg / m2 ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Underweight        < 18.50\n" +
+                              "Normal             18.5 - 24.9\n" +
+                              "Overweight         25.0 - 29.9\n" +
+                              "Obese Class I      30.0 - 34.9\n" +
+                              "Obese Class II     35.0 - 39.9\n" +
+                              "Obese Class III    >= 40.0");
+            Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(" Do you want to calculate another BMI? yes/no");
             if (Console.ReadLine() == "yes")

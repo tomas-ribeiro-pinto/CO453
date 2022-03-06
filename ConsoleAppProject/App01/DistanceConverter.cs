@@ -172,6 +172,7 @@ namespace ConsoleAppProject.App01
         {
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(" " + FromDistance + $" {convertFrom} is " + ToDistance + $" {convertTo}!");
+            Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(" Do you want to convert any other numbers? yes/no");
             if (Console.ReadLine() == "yes")

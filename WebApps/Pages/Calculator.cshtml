@@ -29,20 +29,50 @@
             @ViewData["Message"]
         </p>
     </form>
-    <script>
-        function checkData()
-        {
+    <br />
+    <h2 class="lead text-danger">You should consider a lower body mass index (BMI) if you are either black, Asian or from minority ethnic groups</h2>
+    <table class="table">
+        <tr>
+            <th>WHO Weight Status</th>
+            <th>BMI kg / m2</th>
+        </tr>
+        <tr>
+            <td>Underweight</td>
+            <td>< 18.50</td>
+        </tr>
+        <tr>
+            <td>Normal</td>
+            <td>18.5 - 24.9</td>
+        </tr>
+        <tr>
+            <td>Overweight</td>
+            <td>25.0 - 29.9</td>
+        </tr>
+        <tr>
+            <td>Obese Class I</td>
+            <td>30.0 - 34.99</td>
+        </tr>
+        <tr>
+            <td>Obese Class II</td>
+            <td>35.0 - 39.9</td>
+        </tr>
+        <tr>
+            <td>Obese Class III</td>
+            <td>>= 40.0</td>
+        </tr>
+    </table>
+    <br />
+
+    <script>function checkData() {
             var weight = document.getElementById("weight").value;
             var height = document.getElementById("height").value;
 
             // Validate if the input is a number
-            if (isNaN(weight) || isNaN(height))
-            {
+            if (isNaN(weight) || isNaN(height)) {
                 alert("Please input only numbers!");
             }
             else {
                 document.getElementById("form").submit();
             }
-        }
-    </script>
+        }</script>
 </div>
