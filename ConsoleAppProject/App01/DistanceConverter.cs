@@ -166,7 +166,7 @@ namespace ConsoleAppProject.App01
         }
 
         /// <summary>
-        /// Outputs the convertion and asks for further convertions
+        /// Outputs the conversion and asks for further conversions
         /// </summary>
         private void OutputDistance()
         {

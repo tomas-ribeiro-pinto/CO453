@@ -125,7 +125,7 @@ namespace ConsoleAppProject.App02
         }
 
         /// <summary>
-        /// Outputs the convertion and asks for further calculations
+        /// Outputs the conversion and asks for further calculations
         /// </summary>
         private void OutputResult()
         {
