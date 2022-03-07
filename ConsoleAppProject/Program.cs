@@ -17,11 +17,12 @@ namespace ConsoleAppProject
     public static class Program
     {
 
-        private static string[] choices = { "Distance Converter", "BMI Calculator" };
+        private static string[] choices = { "Distance Converter", "BMI Calculator", "Student Marking System" };
         private static String choice = ConsoleHelper.choiceNo.ToString();
 
         private static DistanceConverter Convert = new DistanceConverter();
         private static BMI Calculator = new BMI();
+        private static StudentGrades Marks = new StudentGrades();
 
         public static void Main(string[] args)
         {
@@ -47,6 +48,9 @@ namespace ConsoleAppProject
 
             else if (choice == "2")
                 Calculator.Run();
+
+            else if (choice == "3")
+                Marks.Run();
         }
 
         private static void OutputHeader()
