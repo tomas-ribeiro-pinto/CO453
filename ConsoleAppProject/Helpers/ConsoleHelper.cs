@@ -71,7 +71,7 @@ namespace ConsoleAppProject.Helpers
                 try
                 {
                     number = Convert.ToDouble(value);
-                    if (number > 0)
+                    if (number >= 0)
                     {
                         isValid = true;
                     }
@@ -136,7 +136,7 @@ namespace ConsoleAppProject.Helpers
         /// </summary>
         public static void OutputHeading(string heading)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Green;
 
             Console.WriteLine("\n ---------------------------------");
             Console.WriteLine($"    {heading}          ");
@@ -144,7 +144,6 @@ namespace ConsoleAppProject.Helpers
             Console.WriteLine(" ---------------------------------" +
                 "\n");
 
-            Console.ForegroundColor = ConsoleColor.Green;
         }
 
         /// <summary>
@@ -153,7 +152,7 @@ namespace ConsoleAppProject.Helpers
         /// </summary>
         public static void OutputTitle(string title)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = ConsoleColor.Red;
 
             Console.WriteLine($"\n {title}");
             Console.Write(" ");
