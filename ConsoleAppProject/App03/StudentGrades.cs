@@ -27,7 +27,10 @@ namespace ConsoleAppProject.App03
         public int MAXIMUM { get; set; } = 100;
         public int PERCENTAGE { get; set; } = 100;
 
-
+        /// <summary>
+        /// This method runs the application with 10 students
+        /// already initialized in the Students Array
+        /// </summary>
         public void Run()
         {
             Students = new string [] { "John", "Ana", "Mary", "Peter", "Thomas", "Martin", "Derek", "Nicholas", "Justin", "Sandra"};
@@ -38,6 +41,7 @@ namespace ConsoleAppProject.App03
             InputMarks();
             OutputGrades();
             OutputStatistics();
+
             Program.Run();
         }
 
@@ -58,19 +62,26 @@ namespace ConsoleAppProject.App03
 
         }
 
+        /// <summary>
+        /// Prmpts for the user to input the marks for each student
+        /// </summary>
         private void InputMarks()
         {
-            Console.WriteLine("Please enter a mark for each student\n");
+            Console.WriteLine("Please enter a mark for each student of the class\n");
             int index = 0;
 
             foreach(string name in Students)
             {
-                int mark = (int)ConsoleHelper.InputNumber($"Enter mark for {name} > ", MINIMUM, MAXIMUM);
+                int mark = (int)ConsoleHelper.InputNumber($"Enter mark for student {name} > ", MINIMUM, MAXIMUM);
                 Marks[index] = mark;
                 index = index + 1;
             }
         }
 
+        /// <summary>
+        /// Outputs a list with students' name, mark
+        /// and their converted grade.
+        /// </summary>
         private void OutputGrades()
         {
             ConsoleHelper.OutputTitle("List of Student Marks and Grades:");
@@ -83,6 +94,11 @@ namespace ConsoleAppProject.App03
             }
         }
 
+        /// <summary>
+        /// Converts marks into grades, as stated in Grades.cs
+        /// </summary>
+        /// <param name="mark"></param>
+        /// <returns>Grade descriptor</returns>
         public Grades ConvertToGrades(int mark)
         {
             if (mark < 40)
@@ -113,6 +129,12 @@ namespace ConsoleAppProject.App03
             return Grades.X;
         }
 
+        /// <summary>
+        /// Calcualates the overall student group
+        /// Grade profile in percentage.
+        /// </summary>
+        /// <param name="mark"></param>
+        /// <returns>Grade descriptor</returns>
         public Grades CalculateGradeProfile(int mark)
         {
             Grades grade = ConvertToGrades(mark);
@@ -120,6 +142,10 @@ namespace ConsoleAppProject.App03
             return grade;
         }
 
+        /// <summary>
+        /// Outputs a list with the minimum, maximum and mean mark.
+        /// It also displays the overall Grade Profile of the student group.
+        /// </summary>
         public void OutputStatistics()
         {
             Mean = Marks.Sum() / Marks.Length;
@@ -132,12 +158,14 @@ namespace ConsoleAppProject.App03
             ConsoleHelper.OutputTitle("Overall Grades:");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
 
+            //Runs a for loop to get the grade descriptor and percentage of people with that grade
             for (int i = 0; i < GradeProfile.Length; i++)
             {
                 Console.WriteLine($"Grade {Enum.GetName(typeof(Grades), i+1)}-- {GradeProfile[i]}%");
             }
 
             Console.ForegroundColor = ConsoleColor.Green;
+            //Terminates the program
             Console.WriteLine("\nPress enter to go back to the main menu...");
             Console.ReadLine();
         }

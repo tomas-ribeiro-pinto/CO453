@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebApps.Data;
 
 namespace WebApps
 {
@@ -24,6 +26,8 @@ namespace WebApps
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            //services.AddDbContext<StudentContext>(options => options.UseSqlServer("Server=.;Database=WebApps;Trusted_Connection=True;"));
+            services.AddDbContext<StudentContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +42,15 @@ namespace WebApps
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+            }
+
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+
+                var context = services.GetRequiredService<StudentContext>();
+                context.Database.EnsureCreated();
+                //DbInitializer.Initialize(context);
             }
 
             app.UseHttpsRedirection();
