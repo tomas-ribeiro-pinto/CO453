@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-WebApplications-E26490AA-8F76-48FD-8056-61BC532EE7A4</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Pages\Marking\" />
+    <None Remove="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
+    <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.23" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.23" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.23" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.23" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.23" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.21" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Marking\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConsoleAppProject\ConsoleAppProject.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Pages\Marking\Marking.cshtml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Pages\Marking\Marking.cshtml" />
+  </ItemGroup>
+</Project>

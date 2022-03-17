@@ -1,0 +1,83 @@
+﻿@page
+@model WebApplications.Pages.Marking.StatisticsModel
+@{
+    ViewData["Title"] = "Student Statistics";
+}
+
+<div>
+    <a class="btn btn-info" asp-page="./Index">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+        </svg>
+        Back to List
+    </a>
+</div>
+<br/>
+<div class="container row-md-6 align-self-center">
+    <div class="row">
+        <div class="col">
+            <div class="card text-white bg-dark mb-3 text-center" style="max-width: 18rem;">
+                <div class="card-header">Number of Students</div>
+                <div class="card-body text-warning">
+                    <h5 class="card-text">@Model.Sum</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-dark mb-3 text-center" style="max-width: 18rem;">
+                <div class="card-header">Mean Mark</div>
+                <div class="card-body text-warning">
+                    <h5 class="card-text">@Model.Mean.ToString("0.00")</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-dark mb-3 text-center" style="max-width: 18rem;">
+                <div class="card-header">Maximum Mark</div>
+                <div class="card-body text-warning">
+                    <h5 class="card-text">@Model.Maximum</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-dark mb-3 text-center" style="max-width: 18rem;">
+                <div class="card-header">Minimum Mark</div>
+                <div class="card-body text-warning">
+                    <h5 class="card-text">@Model.Minimum</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row align-self-center">
+        <div class="card mb-3 text-center" style="margin: 0 auto; display: block;">
+            <div class="card-header text-white bg-dark">Grade Profile</div>
+                <div class="card-body text-warning">
+                    <div id="piechart"></div>
+                </div>
+            </div>
+        </div>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">// Load google charts
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Draw the chart and set the chart values
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Grade X', 'Number of Students'],
+                ['Grade A', @Model.GradeA],
+                ['Grade B', @Model.GradeB],
+                ['Grade C', @Model.GradeC],
+                ['Grade D', @Model.GradeD],
+                ['Grade F', @Model.GradeF]
+            ]);
+
+            // Optional; add a title and set the width and height of the chart
+            var options = {
+                'backgroundColor': 'transparent', 'width': 600, 'height': 425, };
+
+            // Display the chart inside the <div> element with id="piechart"
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+        }</script>
+</div>

@@ -148,7 +148,7 @@ namespace ConsoleAppProject.App03
         /// </summary>
         public void OutputStatistics()
         {
-            Mean = Marks.Sum() / Marks.Length;
+            Mean = (double)Marks.Sum() / (double)Marks.Length;
             MinMark = Marks.Min();
             MaxMark = Marks.Max();
 

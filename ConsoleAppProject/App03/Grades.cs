@@ -14,19 +14,19 @@ namespace ConsoleAppProject.App03
         [Display(Name = "Invalid")]
         [Description("Invalid Grade")]
         X,
-        [Display(Name = "1st")]
+        [Display(Name = "A")]
         [Description("BSc(Hons) First Class")]
         A,
-        [Display(Name = "II-1")]
+        [Display(Name = "B")]
         [Description("BSc(Hons) Upper Second")]
         B,
-        [Display(Name = "II-2")]
+        [Display(Name = "C")]
         [Description("BSc(Hons) Lower Second")]
         C,
-        [Display(Name = "III")]
+        [Display(Name = "D")]
         [Description("BSc(Hons) Third Class")]
         D,
-        [Display(Name = "Fail")]
+        [Display(Name = "F")]
         [Description("Referred")]
         F
     }

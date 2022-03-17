@@ -1,0 +1,55 @@
+﻿@page
+@model WebAppsCO453.Views.Home.DistanceConverterModel
+@using ConsoleAppProject.App01;
+@{
+    ViewData["Title"] = "Distance Converter";
+}
+
+<h1 class="text-center jumbotron">Distance Converter - App01</h1>
+
+<div class="container col-md-6 align-self-center">
+    <form id="form" class="text-center" method="post">
+        <p>
+            Convert from:
+            <select id="unitFrom" asp-for="@Model.App01.convertFrom">
+                <option>@DistanceConverter.MILES</option>
+                <option>@DistanceConverter.FEET</option>
+                <option>@DistanceConverter.METRES</option>
+            </select>
+            Convert to:
+            <select id="unitTo" asp-for="@Model.App01.convertTo">
+                <option>@DistanceConverter.MILES</option>
+                <option>@DistanceConverter.FEET</option>
+                <option>@DistanceConverter.METRES</option>
+            </select>
+        </p>
+        <br>
+        <p>Input your distance: <input id="distance" asp-for="@Model.App01.FromDistance" type="text" /></p>
+        <br>
+        <p class="lead">
+            <button onclick="event.preventDefault(); checkUnits()" class="btn btn-info">Convert</button>
+            @ViewData["Message"]
+        </p>
+    </form>
+    <script>
+        function checkUnits()
+        {
+            var unitFrom = document.getElementById("unitFrom").value;
+            var unitTo = document.getElementById("unitTo").value;
+            var distance = document.getElementById("distance").value;
+
+            // If the user tries to convert from to the same unit
+            if (unitFrom == unitTo) {
+                alert("You cannot convert from and to the same unit!");
+            }
+            // Validate if the input is a number
+            else if (isNaN(distance)) {
+                alert("Please input only numbers!");
+            }
+            else
+            {
+                document.getElementById("form").submit();
+            }
+        }
+    </script>
+</div>
