@@ -3,6 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ConsoleAppProject.App03
 {
+    /// <summary>
+    /// This class is responsible for the Database of the Web Version
+    /// of the Marking stystem app. It also validates the data for user input.
+    /// </summary>
+    /// <author>
+    /// Tomás Pinto Version 21st March 2022
+    /// </author>
     public class Student
     {
         public int StudentId { get; set; }
