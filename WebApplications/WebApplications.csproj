@@ -9,6 +9,7 @@
     <None Remove="Pages\Marking\" />
     <None Remove="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
     <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
+    <None Remove="Pages\Network\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
@@ -26,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="Pages\Marking\" />
+    <Folder Include="Pages\Network\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConsoleAppProject\ConsoleAppProject.csproj">

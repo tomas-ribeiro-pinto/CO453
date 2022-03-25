@@ -51,6 +51,7 @@ namespace ConsoleAppProject
 
             else if (choice == "3")
                 Marks.Run();
+
         }
 
         private static void OutputHeader()

@@ -9,8 +9,8 @@ using WebApplications.Data;
 namespace WebApplications.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220317004821_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220325185456_Network")]
+    partial class Network
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,6 +22,9 @@ namespace WebApplications.Data.Migrations
                 {
                     b.Property<int>("StudentId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Grade")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Mark")
@@ -231,6 +234,56 @@ namespace WebApplications.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("WebApplications.Network.Post", b =>
+                {
+                    b.Property<int>("PostId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("PostId");
+
+                    b.ToTable("Posts");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Post");
+                });
+
+            modelBuilder.Entity("WebApplications.Network.MessagePost", b =>
+                {
+                    b.HasBaseType("WebApplications.Network.Post");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.HasDiscriminator().HasValue("MessagePost");
+                });
+
+            modelBuilder.Entity("WebApplications.Network.PhotoPost", b =>
+                {
+                    b.HasBaseType("WebApplications.Network.Post");
+
+                    b.Property<string>("Caption")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Filename")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(128);
+
+                    b.HasDiscriminator().HasValue("PhotoPost");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
