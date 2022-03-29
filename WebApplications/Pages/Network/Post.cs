@@ -91,8 +91,29 @@ namespace WebApplications.Network
 
             long seconds = (long)timePast.TotalSeconds;
             long minutes = seconds / 60;
-            
-            if (minutes > 0)
+            long hours = minutes / 60;
+            long days = hours / 24;
+
+            if (days > 0)
+            {
+                if (days == 1)
+                {
+                    return days + " day ago";
+                }
+                else if (days <= 7)
+                {
+                    return days + " days ago";
+                }
+                else
+                {
+                    return Timestamp.ToString("dd/MM/yyyy");
+                }
+            }
+            else if (hours > 0)
+            {
+                return hours + " hours ago";
+            }
+            else if (minutes > 0)
             {
                 return minutes + " minutes ago";
             }

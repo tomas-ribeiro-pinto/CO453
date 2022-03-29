@@ -1,9 +1,7 @@
 @page
 @model WebApplications.Pages.Network.IndexModel
 
-@{
-    ViewData["Title"] = "Index";
-}
+@{ ViewData["Title"] = "Index"; }
 
 <h1>Index</h1>
 
@@ -29,26 +27,49 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.MessagePost) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Message)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author)
-            </td>
-            <td>
-                @item.FormatElapsedTime()
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Likes)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.PostId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.PostId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.PostId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.MessagePost)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Message)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Author)
+    </td>
+    <td>
+        @item.FormatElapsedTime()
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Likes)
+    </td>
+    <td>
+        <a asp-page="./Edit" asp-route-id="@item.PostId">Edit</a> |
+        <a asp-page="./Details" asp-route-id="@item.PostId">Details</a> |
+        <a asp-page="./Delete" asp-route-id="@item.PostId">Delete</a>
+    </td>
+</tr>}
     </tbody>
 </table>
+<div class="container col-md-8 align-self-center">
+    @foreach (var item in Model.MessagePost)
+    {
+        <div class="card bg-white" style="font-size: 2.5em; padding: 2%;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-info"><i class="bi bi-person-circle text-dark"></i> @Html.DisplayFor(modelItem => item.Author)</h6>
+                <p style="font-size: 0.95em;" class="card-text">@Html.DisplayFor(modelItem => item.Message)</p>
+                <div>
+                    <h6 style="font-size: 0.4em; float: left;" class="card-subtitle mb-2 text-muted">@item.FormatElapsedTime()</h6>
+                    <h5 style="font-size: 0.4em; float: right;" class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.Likes) <button class="btn btn-outline-danger"><i class="bi bi-suit-heart"></i></button></h5>
+                </div>
+            </div>
+        </div>
+        <div class="card bg-light" style="padding: 2%;">
+            <h3 class="card-title">Comments</h3>
+            <form>
+                <input style="border-radius: 0.5em; border-width:0.1em; padding: 0.9%; width: 92%;" type="text" placeholder="Add a comment to this post"/>
+                <button type="submit" class="btn btn-primary"><i class="bi bi-send-fill"></i></button>
+            </form>
+        </div>
+        <br />
+    }
+</div>
