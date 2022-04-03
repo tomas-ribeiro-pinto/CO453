@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using WebApplications.Pages.Network;
 
 namespace WebApplications.Network
 {
@@ -23,6 +24,8 @@ namespace WebApplications.Network
         public DateTime Timestamp { get; set; }
 
         public int Likes { get; set; }
+
+        public ICollection<Comment> Comments { get; set; }
 
         //private readonly List<String> comments;
 

@@ -1,0 +1,98 @@
+@page
+@model WebApplications.Pages.Network.Photo.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a class="btn btn-primary" asp-page="Create">Create New Photo Post</a>
+    <a class="btn btn-secondary" asp-page="../Index">Go to Message Posts</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PhotoPost[0].Filename)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhotoPost[0].Caption)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhotoPost[0].Author)
+            </th>
+            <th>
+                Time
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhotoPost[0].Likes)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.PhotoPost) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Filename)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Caption)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author)
+            </td>
+            <td>
+                @item.FormatElapsedTime()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Likes)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.PostId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.PostId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.PostId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<div class="container col-md-8 align-self-center">
+    @foreach (var item in Model.PhotoPost)
+    {
+<div class="card bg-white" style="font-size: 2.5em; padding: 2%;">
+    <div id="@item.PostId" class="card-body">
+        <h6 class="card-subtitle mb-2 text-info"><i class="bi bi-person-circle text-dark"></i> @Html.DisplayFor(modelItem => item.Author)</h6>
+        <p style="font-size: 0.95em;" class="card-text">@Html.DisplayFor(modelItem => item.Caption)</p>
+        <img style="max-width: 65%;" src="/images/@item.Filename"/>
+        <br />
+        <div class="mt-4">
+            <h6 style="font-size: 0.4em; float: left;" class="card-subtitle mb-2 text-muted">@item.FormatElapsedTime()</h6>
+            <h5 style="font-size: 0.4em; float: right;" class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.Likes)
+            <a title="Like" asp-page-handler="Like" asp-route-id="@item.PostId" class="btn btn-outline-success"><i class="bi bi-suit-heart-fill"></i></a>
+            <a title="UnLike" asp-page-handler="UnLike" asp-route-id="@item.PostId" class="btn btn-outline-danger"><i class="bi bi-heartbreak"></i></a></h5>
+        </div>
+    </div>
+</div>
+                <div class="card bg-light" style="padding: 2%;">
+                    <h3 class="card-title">Comments</h3>
+                    @if (item.Comments == null || item.Comments.Count() == 0)
+                    {
+                        <p>No Comments at the moment!</p>
+                    }
+                    else
+                    {
+                        foreach (Comment comment in item.Comments)
+                        {
+                            <p>@comment.Text</p>
+                        }
+                    }
+                <form method="post">
+                    <input asp-for="Comment.Text" style="border-radius: 0.5em; border-width:0.1em; padding: 0.9%; width: 92%;" type="text" placeholder="Add a comment to this post" required/>
+                    <a asp-route-id="@item.PostId" type="submit" class="btn btn-primary"><i class="bi bi-send-fill"></i></a>
+                </form>
+                </div>
+                                <br />}
+</div>

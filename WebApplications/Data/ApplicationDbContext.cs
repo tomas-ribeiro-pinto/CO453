@@ -2,6 +2,7 @@
 using WebApplications.Network;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WebApplications.Pages.Network;
 
 namespace WebApplications.Data
 {
@@ -19,5 +20,6 @@ namespace WebApplications.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<PhotoPost> Photos { get; set; }
         public DbSet<MessagePost> Messages { get; set; }
+        public DbSet<Comment> Comments { get; set; }
     }
 }

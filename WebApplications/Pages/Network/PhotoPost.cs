@@ -20,7 +20,7 @@ namespace WebApplications.Network
         public String Filename { get; set; }
 
         // a one line image caption
-        [StringLength(30), Required]
+        [StringLength(150), Required]
         public String Caption { get; set; }   
     }
 }

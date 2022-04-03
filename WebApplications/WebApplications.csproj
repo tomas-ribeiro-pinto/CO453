@@ -10,6 +10,12 @@
     <None Remove="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
     <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
     <None Remove="Pages\Network\" />
+    <None Remove="Pages\Network\Photo\" />
+    <None Remove="Pages\Network\Posts\" />
+    <None Remove="Pages\Network\Comments\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\images\trump.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
@@ -28,6 +34,10 @@
   <ItemGroup>
     <Folder Include="Pages\Marking\" />
     <Folder Include="Pages\Network\" />
+    <Folder Include="Pages\Network\Photo\" />
+    <Folder Include="Pages\Network\Posts\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="Pages\Network\Comments\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConsoleAppProject\ConsoleAppProject.csproj">
@@ -39,5 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Pages\Marking\Marking.cshtml" />
+    <Content Remove="wwwroot\images\trump.jpg" />
+    <Content Remove="wwwroot\images\" />
   </ItemGroup>
 </Project>
