@@ -21,6 +21,8 @@ namespace WebApplications.Pages.Network
         }
 
         public IList<MessagePost> MessagePost { get;set; }
+        public IList<Comment> Comment { get; set; }
+        public string currentSearch { get; set; }
         //public IList<PhotoPost> PhotoPost { get; set; }
         //public IList<Post> Posts { get; set; }
 
@@ -28,11 +30,9 @@ namespace WebApplications.Pages.Network
         {
 
             MessagePost = await _context.Messages.OrderByDescending(a => a.Timestamp).ToListAsync();
+            Comment = await _context.Comments
+                .Include(c => c.Post).ToListAsync();
 
-            if (!String.IsNullOrEmpty(userName))
-            {
-                MessagePost = ((IList<MessagePost>)MessagePost.Where(u => u.Author == userName));
-            }
             //PhotoPost = await _context.Photos.ToListAsync();
 
             //List<Post> Posts = new List<Post>();
@@ -42,6 +42,17 @@ namespace WebApplications.Pages.Network
 
 
             //var Posts = await _context.Posts.OrderByDescending(a => a.Timestamp).ToArrayAsync();
+
+            currentSearch = userName;
+
+            IQueryable<MessagePost> messagesIQ = from p in _context.Messages
+                                             select p;
+            if (!String.IsNullOrEmpty(userName))
+            {
+                messagesIQ = messagesIQ.Where(p => p.Author.Contains(userName));
+            }
+
+            MessagePost = await messagesIQ.AsNoTracking().ToListAsync();
         }
 
 
@@ -93,6 +104,21 @@ namespace WebApplications.Pages.Network
             {
                 return NotFound();
             }
+
+            return Redirect(Url.Action("Index") + $"#{id}");
+        }
+
+        [BindProperty]
+        public string Text { get; set; }
+
+        public async Task<IActionResult> OnPost(int id)
+        {
+            Comment comment = new Comment();
+            comment.Text = Text;
+            comment.PostId = id;
+
+            _context.Add(comment);
+            await _context.SaveChangesAsync();
 
             return Redirect(Url.Action("Index") + $"#{id}");
         }
