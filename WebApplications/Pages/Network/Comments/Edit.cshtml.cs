@@ -30,7 +30,7 @@ namespace WebApplications.Pages.Network.Comments
                 return NotFound();
             }
 
-            Comment = await _context.Comment
+            Comment = await _context.Comments
                 .Include(c => c.Post).FirstOrDefaultAsync(m => m.CommentId == id);
 
             if (Comment == null)
@@ -73,7 +73,7 @@ namespace WebApplications.Pages.Network.Comments
 
         private bool CommentExists(int id)
         {
-            return _context.Comment.Any(e => e.CommentId == id);
+            return _context.Comments.Any(e => e.CommentId == id);
         }
     }
 }

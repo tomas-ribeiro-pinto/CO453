@@ -92,6 +92,7 @@
                 <form method="post">
                     <input asp-for="Comment.Text" style="border-radius: 0.5em; border-width:0.1em; padding: 0.9%; width: 92%;" type="text" placeholder="Add a comment to this post" required/>
                     <a asp-route-id="@item.PostId" type="submit" class="btn btn-primary"><i class="bi bi-send-fill"></i></a>
+                    <input asp-route-id="@item.PostId" type="submit" class="btn btn-primary" value="Add"/>
                 </form>
                 </div>
                                 <br />}

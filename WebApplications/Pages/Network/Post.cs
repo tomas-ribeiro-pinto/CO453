@@ -25,7 +25,7 @@ namespace WebApplications.Network
 
         public int Likes { get; set; }
 
-        public ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
 
         //private readonly List<String> comments;
 

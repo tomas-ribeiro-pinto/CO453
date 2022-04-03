@@ -23,7 +23,7 @@ namespace WebApplications.Pages.Network.Comments
 
         public async Task OnGetAsync()
         {
-            Comment = await _context.Comment
+            Comment = await _context.Comments
                 .Include(c => c.Post).ToListAsync();
         }
     }

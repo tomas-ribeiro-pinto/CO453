@@ -81,7 +81,6 @@ namespace WebApplications.Pages.Network.Photo
         [BindProperty]
         public Comment Comment { get; set; }
 
-        /**
         public ActionResult OnPost(int id)
         {
             var photoPost = _context.Photos.Find(id);
@@ -93,6 +92,7 @@ namespace WebApplications.Pages.Network.Photo
             else
             {
                 Comment Comment = new Comment();
+                Comment.PostId = id;
                 photoPost.Comments.Add(Comment);
             }
 
@@ -108,8 +108,8 @@ namespace WebApplications.Pages.Network.Photo
 
             return Redirect(Url.Action("Index") + $"#{id}");
         }
-        */
-        
+
+        /**
         public async Task<IActionResult> OnPost(int id)
         {
             Comment comment = new Comment();
@@ -120,6 +120,6 @@ namespace WebApplications.Pages.Network.Photo
 
             return Redirect(Url.Action("Index") + $"#{id}");
         }
-        
+        */
     }
 }

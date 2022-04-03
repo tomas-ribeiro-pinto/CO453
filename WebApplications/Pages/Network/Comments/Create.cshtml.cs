@@ -37,7 +37,7 @@ namespace WebApplications.Pages.Network.Comments
                 return Page();
             }
 
-            _context.Comment.Add(Comment);
+            _context.Comments.Add(Comment);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

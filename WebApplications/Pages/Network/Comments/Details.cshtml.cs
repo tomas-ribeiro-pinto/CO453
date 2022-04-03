@@ -28,7 +28,7 @@ namespace WebApplications.Pages.Network.Comments
                 return NotFound();
             }
 
-            Comment = await _context.Comment
+            Comment = await _context.Comments
                 .Include(c => c.Post).FirstOrDefaultAsync(m => m.CommentId == id);
 
             if (Comment == null)
