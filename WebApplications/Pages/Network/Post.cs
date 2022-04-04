@@ -32,12 +32,6 @@ namespace WebApplications.Network
         /// <summary>
         /// Constructor for objects of class MessagePost.
         /// </summary>
-        /// <param name="author">
-        /// The username of the author of this post.
-        /// </param>
-        /// <param name="text">
-        /// The text of this post.
-        /// </param>
         public Post()
         {
             Timestamp = DateTime.Now;
@@ -62,19 +56,6 @@ namespace WebApplications.Network
                 Likes--;
             }
         }
-
-        /**
-        ///<summary>
-        /// Add a comment to this post.
-        /// </summary>
-        /// <param name="text">
-        /// The new comment to add.
-        /// </param>        
-        public void AddComment(String text)
-        {
-            comments.Add(text);
-        }
-        */
 
         ///<summary>
         /// Create a string describing a time point in the past in terms 
