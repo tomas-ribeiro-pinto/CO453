@@ -1,6 +1,7 @@
 ﻿using System;
+using App05_Super_Rusty;
 
-namespace App05_Super_Rusty
+namespace Super_Rusty_App05
 {
     public static class Program
     {
