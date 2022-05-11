@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Super_Rusty_App05;
 
 namespace App05_Super_Rusty
 {
@@ -12,6 +14,8 @@ namespace App05_Super_Rusty
         public Vector2 Position;
         public Vector2 Velocity;
         public bool hasJumped;
+        public int Score;
+        public int Lives = 1;
 
         public Rusty(Texture2D texture, Vector2 position)
         {
@@ -25,9 +29,19 @@ namespace App05_Super_Rusty
                 Vector2.Zero, 2f, SpriteEffects.None, 0f);
         }
 
-        public void Update(SoundEffect effect)
+        public void Update(SoundEffect effect, GameTime gameTime, List<Block> blocks)
         {
             Position += Velocity;
+
+            foreach (var block in blocks)
+            {
+                if (this.Velocity.X > 0 && block.IsTouchingLeft(block) ||
+                   (this.Velocity.X < 0 && block.IsTouchingRight(block)))
+                    this.Velocity.X = 0;
+                if (this.Velocity.Y > 0 && block.IsTouchingBottom(block) ||
+                    (this.Velocity.Y < 0 && block.IsTouchingTop(block)))
+                    this.Velocity.Y = 0;
+            }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
