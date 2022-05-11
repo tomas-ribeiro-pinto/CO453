@@ -29,8 +29,9 @@ namespace App05_Super_Rusty
 
         private Beer beer1;
         private Beer beer2;
+        private Beer beer3;
 
-        private List<Block> blocks;
+        public static List<Block> blocks;
         private List<Beer> beers;
 
         // Police Enemies
@@ -41,7 +42,7 @@ namespace App05_Super_Rusty
         public static SoundEffect BeerEffect;
         public static SoundEffect GameOverEffect;
 
-        public const int Y_POSITION = 360;
+        public const int Y_GROUND = 360;
         public const int SCREEN_WIDTH = 800;
 
         public Game1()
@@ -69,15 +70,15 @@ namespace App05_Super_Rusty
 
             Arial = Content.Load<SpriteFont>("Ubuntu");
 
-            rusty = new Rusty(Content.Load<Texture2D>("deer_still"), new Vector2(20, Y_POSITION));
+            rusty = new Rusty(Content.Load<Texture2D>("deer_still"), new Vector2(20, Y_GROUND));
 
             scrolling1 = new Scrolling(Content.Load<Texture2D>("background0"), new Rectangle(0, 0, 800, 500));
             scrolling2 = new Scrolling(Content.Load<Texture2D>("background1"), new Rectangle(SCREEN_WIDTH * 1, 0, 800, 500));
             scrolling3 = new Scrolling(Content.Load<Texture2D>("background2"), new Rectangle(SCREEN_WIDTH * 2, 0, 800, 500));
 
-            block1 = new Block(Content.Load<Texture2D>("3_block"), new Vector2(230, Y_POSITION -50));
-            block2 = new Block(Content.Load<Texture2D>("1_block"), new Vector2(380, Y_POSITION - 120));
-            block3 = new Block(Content.Load<Texture2D>("5_block"), new Vector2(440, Y_POSITION - 120));
+            block1 = new Block(Content.Load<Texture2D>("3_block"), new Vector2(230, Y_GROUND - 50));
+            block2 = new Block(Content.Load<Texture2D>("5_block"), new Vector2(420, Y_GROUND - 150));
+            block3 = new Block(Content.Load<Texture2D>("5_block"), new Vector2(900, Y_GROUND - 50));
 
             blocks = new List<Block>
             {
@@ -86,13 +87,15 @@ namespace App05_Super_Rusty
                 block3
             };
 
-            beer1 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(340, Y_POSITION));
-            beer2 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(900, Y_POSITION - 60));
+            beer1 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(460, Y_GROUND));
+            beer2 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(430, Y_GROUND - 190));
+            beer3 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(560, Y_GROUND - 190));
 
             beers = new List<Beer>
             {
                 beer1,
-                beer2
+                beer2,
+                beer3
             };
 
             //police1 = new Police(Content.Load<Texture2D>("police1"), new Vector2(300, Y_POSITION));
@@ -113,11 +116,11 @@ namespace App05_Super_Rusty
             rusty.Update(JumpEffect, gameTime, blocks);
             if (rusty.Lives <= 0)
             {
-                GameOver = true;
-                GameOverEffect.Play();
                 backgroundBatch.Begin();
                 backgroundBatch.DrawString(Arial, "GAME OVER :(", new Vector2(400, 400), Color.Red);
                 backgroundBatch.End();
+                GameOver = true;
+                GameOverEffect.Play();
                 System.Threading.Thread.Sleep(1500);
                 Exit();
             }
@@ -126,9 +129,8 @@ namespace App05_Super_Rusty
             scrolling2.Update();
             scrolling3.Update();
 
-            block1.Update();
-            block2.Update();
-            block3.Update();
+            foreach (Block block in blocks)
+                block.Update();
 
             foreach (Beer beer in beers)
             {
@@ -166,7 +168,7 @@ namespace App05_Super_Rusty
                 spawn = 0;
                 if (enemies.Count() < 2)
                 {
-                    enemies.Add(new Police(Content.Load<Texture2D>("police_man"), new Vector2(randX, Y_POSITION)));
+                    enemies.Add(new Police(Content.Load<Texture2D>("police_man"), new Vector2(randX, Y_GROUND)));
                 }
             }
 

@@ -47,7 +47,7 @@ namespace Super_Rusty_App05
                 _position.X -= 3;
             }
 
-            if (IsVisible && Game1.CheckInterval(Game1.rusty.Position.X, _position.X - 20, _position.X + 20) && Game1.CheckInterval(Game1.rusty.Position.Y, _position.Y - 20, _position.Y + 20))
+            if (IsVisible && Game1.CheckInterval(Game1.rusty.Position.X, _position.X - Game1.rusty.Texture.Width, _position.X + Game1.rusty.Texture.Width) && Game1.CheckInterval(Game1.rusty.Position.Y, _position.Y - Game1.rusty.Texture.Height, _position.Y + Game1.rusty.Texture.Width))
             {
                 Game1.rusty.Score++;
                 IsVisible = false;

@@ -24,7 +24,7 @@ namespace Super_Rusty_App05
 
             randX = (float)(-1.5 * random.NextDouble());
 
-            _velocity = new Vector2(randX, Game1.Y_POSITION);
+            _velocity = new Vector2(randX, Game1.Y_GROUND);
         }
 
         public void Draw(SpriteBatch spriteBatch)
