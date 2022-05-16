@@ -21,17 +21,24 @@ namespace App05_Super_Rusty
         private Scrolling scrolling1;
         private Scrolling scrolling2;
         private Scrolling scrolling3;
+
         private Block block1;
         private Block block2;
         private Block block3;
+        private Block block4;
+        private Block block5;
 
         public SpriteFont Arial;
 
         private Beer beer1;
         private Beer beer2;
         private Beer beer3;
+        private Beer beer4;
+        private Beer beer5;
 
         public static List<Block> blocks;
+        public static List<Scrolling> Scrollings;
+
         private List<Beer> beers;
 
         // Police Enemies
@@ -76,26 +83,41 @@ namespace App05_Super_Rusty
             scrolling2 = new Scrolling(Content.Load<Texture2D>("background1"), new Rectangle(SCREEN_WIDTH * 1, 0, 800, 500));
             scrolling3 = new Scrolling(Content.Load<Texture2D>("background2"), new Rectangle(SCREEN_WIDTH * 2, 0, 800, 500));
 
+            Scrollings = new List<Scrolling>
+            {
+                scrolling1,
+                scrolling2,
+                scrolling3
+            };
+
             block1 = new Block(Content.Load<Texture2D>("3_block"), new Vector2(230, Y_GROUND - 50));
             block2 = new Block(Content.Load<Texture2D>("5_block"), new Vector2(420, Y_GROUND - 150));
-            block3 = new Block(Content.Load<Texture2D>("5_block"), new Vector2(900, Y_GROUND - 50));
+            block3 = new Block(Content.Load<Texture2D>("5_block"), new Vector2(950, Y_GROUND - 50));
+            block4 = new Block(Content.Load<Texture2D>("3_block"), new Vector2(1300, Y_GROUND - 150));
+            block5 = new Block(Content.Load<Texture2D>("3_block"), new Vector2(1900, Y_GROUND - 50));
 
             blocks = new List<Block>
             {
                 block1,
                 block2,
-                block3
+                block3,
+                block4,
+                block5
             };
 
             beer1 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(460, Y_GROUND));
             beer2 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(430, Y_GROUND - 190));
             beer3 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(560, Y_GROUND - 190));
+            beer4 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(1380, Y_GROUND - 190));
+            beer5 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(1360, Y_GROUND));
 
             beers = new List<Beer>
             {
                 beer1,
                 beer2,
-                beer3
+                beer3,
+                beer4,
+                beer5
             };
 
             //police1 = new Police(Content.Load<Texture2D>("police1"), new Vector2(300, Y_POSITION));
@@ -114,7 +136,7 @@ namespace App05_Super_Rusty
             // TODO: Add your update logic here
 
             rusty.Update(JumpEffect, gameTime, blocks);
-            if (rusty.Lives <= 0)
+            if (rusty.Lives <= 0 || (Scrolling.IsLastBackground() && rusty.Position.X >= 650))
             {
                 backgroundBatch.Begin();
                 backgroundBatch.DrawString(Arial, "GAME OVER :(", new Vector2(400, 400), Color.Red);
@@ -125,9 +147,8 @@ namespace App05_Super_Rusty
                 Exit();
             }
 
-            scrolling1.Update();
-            scrolling2.Update();
-            scrolling3.Update();
+            foreach (Scrolling scrolling in Scrollings)
+                scrolling.Update();
 
             foreach (Block block in blocks)
                 block.Update();
@@ -166,7 +187,7 @@ namespace App05_Super_Rusty
             if (spawn >= 2)
             {
                 spawn = 0;
-                if (enemies.Count() < 2)
+                if (enemies.Count() < 2 && !Scrolling.IsLastBackground())
                 {
                     enemies.Add(new Police(Content.Load<Texture2D>("police_man"), new Vector2(randX, Y_GROUND)));
                 }
@@ -187,9 +208,8 @@ namespace App05_Super_Rusty
             GraphicsDevice.Clear(Color.LightSkyBlue);
 
             backgroundBatch.Begin();
-            scrolling1.Draw(backgroundBatch);
-            scrolling2.Draw(backgroundBatch);
-            scrolling3.Draw(backgroundBatch);
+            foreach (Scrolling scrolling in Scrollings)
+                scrolling.Draw(backgroundBatch);
             backgroundBatch.DrawString(Arial, $"Score: {rusty.Score}", new Vector2(10, 10), Color.Black);
             backgroundBatch.End();
 

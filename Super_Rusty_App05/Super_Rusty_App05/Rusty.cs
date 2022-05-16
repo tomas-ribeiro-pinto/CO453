@@ -66,15 +66,18 @@ namespace App05_Super_Rusty
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                if (Position.X == 400)
-                    Velocity.X += 4f;
-                else if (Position.X <= 400)
+                if (Position.X < 400)
+                    Velocity.X += 3f;
+                else if (Position.X == 400)
+                    Velocity.X += 3f;
+
+                if (Scrolling.IsLastBackground() && Position.X < 790 - Texture.Width)
                     Velocity.X += 3f;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
                 if (Position.X > 5)
-                    Velocity.X = -2f;
+                    Velocity.X = -3f;
             }
 
             /**
@@ -137,7 +140,7 @@ namespace App05_Super_Rusty
         public bool IsTouchingTop(Block block)
         {
             return Rectangle.Bottom <= block.Rectangle.Top + 1 &&
-                Rectangle.Top >= block.Rectangle.Top - TEXTURE_HEIGHT - 1 &&
+                Rectangle.Top >= block.Rectangle.Top - TEXTURE_HEIGHT - 2 &&
                 Rectangle.Left < block.Rectangle.Right - 10 &&
                 Rectangle.Right > block.Rectangle.Left + 10;
         }

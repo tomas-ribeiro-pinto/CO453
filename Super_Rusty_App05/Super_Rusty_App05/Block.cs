@@ -36,7 +36,7 @@ namespace Super_Rusty_App05
 
         public void Update()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Right) && Game1.rusty.Position.X >= 400)
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && Game1.rusty.Position.X >= 400 && !Scrolling.IsLastBackground())
             {
                 Position.X -= 3;
             }

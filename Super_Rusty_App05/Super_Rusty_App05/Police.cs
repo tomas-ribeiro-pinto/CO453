@@ -37,7 +37,7 @@ namespace Super_Rusty_App05
         {
             _position.X += _velocity.X;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Right) && Game1.rusty.Position.X >= 400)
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && Game1.rusty.Position.X >= 400 && !Scrolling.IsLastBackground())
             {
                 _position.X -= 3;
             }
