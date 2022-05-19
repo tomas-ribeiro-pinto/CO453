@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using App05_Super_Rusty;
+﻿using App05_Super_Rusty;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Super_Rusty_App05.States;
 
 namespace Super_Rusty_App05
 {
+    /// <summary>
+    /// This class is responsible for the block
+    /// platforms in the Super Rusty game.
+    /// </summary>
+    /// <author>Tomás Pinto</author>
+    /// <version>19th May 2022</version>
     public class Block
     {
         public Texture2D Texture;
@@ -37,9 +39,10 @@ namespace Super_Rusty_App05
 
         public void Update()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Right) && Game1.rusty.Position.X >= 400 && !Scrolling.IsLastBackground())
+            // move block at translation speed
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && Game1.rusty.Position.X >= Game1.SCREEN_WIDTH/2 && !Scrolling.IsLastBackground())
             {
-                Position.X -= 3;
+                Position.X -= Game1.TRANSLATION;
             }
         }
     }

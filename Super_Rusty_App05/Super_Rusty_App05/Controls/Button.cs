@@ -5,32 +5,29 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Super_Rusty_App05
 {
+    /// <summary>
+    /// This class is part of the Super Rusty game.
+    /// It is used to create the buttons on the main menu.
+    /// </summary>
+    /// <author>Tomás Pinto</author>
+    /// <version>19th May 2022</version>
     public class Button : Component
     {
         // Fields
-         
-        private MouseState _currentMouse;
-
-        private SpriteFont _font;
-
-        private bool _isHovering;
-
-        private MouseState _previousMouse;
 
         private Texture2D _texture;
-
-
+        private MouseState _currentMouse;
+        private SpriteFont _font;
+        // if mouse is hovering button
+        private bool _isHovering;
+        private MouseState _previousMouse;
 
         // Properties
 
         public event EventHandler Click;
-
         public bool Clicked { get; private set; }
-
         public Color PenColour { get; set; }
-
         public Vector2 Position { get; set; }
-
         public string Text { get; set; }
 
         public Rectangle Rectangle
@@ -60,6 +57,7 @@ namespace Super_Rusty_App05
 
             spriteBatch.Draw(_texture, Rectangle, colour);
 
+            // adds text to the buttons
             if (!string.IsNullOrEmpty(Text))
             {
                 var x = (Rectangle.X + (Rectangle.Width / 2)) - (_font.MeasureString(Text).X / 2);
@@ -82,6 +80,7 @@ namespace Super_Rusty_App05
             {
                 _isHovering = true;
 
+                // if the user pressed the button
                 if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
                 {
                     Click?.Invoke(this, new EventArgs());

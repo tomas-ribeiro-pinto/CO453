@@ -8,11 +8,19 @@ using Super_Rusty_App05.States;
 
 namespace Super_Rusty_App05
 {
+    /// <summary>
+    /// This class is responsible for the collectable
+    /// beers in the Super Rusty game.
+    /// </summary>
+    /// <author>Tomás Pinto</author>
+    /// <version>19th May 2022</version>
     public class Beer
     {
         private Texture2D _texture;
         private Vector2 _position;
         private Vector2 _velocity;
+
+        // store the old position of the beer for animation purposes
         private float oldPosition;
         public bool IsVisible = true;
 
@@ -33,6 +41,7 @@ namespace Super_Rusty_App05
         {
             _position.Y += _velocity.Y;
 
+            // if visible, start animation
             if (IsVisible)
             {
                 if (_velocity.Y == 0)
@@ -45,9 +54,10 @@ namespace Super_Rusty_App05
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right) && Game1.rusty.Position.X >= 400)
             {
-                _position.X -= 3;
+                _position.X -= Game1.TRANSLATION;
             }
 
+            // Checks if the player has picked the beer and plays sound effect
             if (IsVisible && Game1.CheckInterval(Game1.rusty.Position.X, _position.X - Game1.rusty.Texture.Width, _position.X + Game1.rusty.Texture.Width) &&
                 Game1.CheckInterval(Game1.rusty.Position.Y, _position.Y - Game1.rusty.Texture.Height, _position.Y + Game1.rusty.Texture.Width))
             {

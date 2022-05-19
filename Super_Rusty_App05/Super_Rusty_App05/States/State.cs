@@ -6,6 +6,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Super_Rusty_App05.States
 {
+    /// <summary>
+    /// This class is responsible of the states
+    /// in the Super Rusty Game.
+    /// </summary>
+    /// <author>Tomás Pinto</author>
+    /// <version>19th May 2022</version>
     public abstract class State
     {
         protected ContentManager _content;

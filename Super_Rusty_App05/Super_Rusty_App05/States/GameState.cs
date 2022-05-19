@@ -8,6 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Super_Rusty_App05.States
 {
+    /// <summary>
+    /// This class is part of the Super Rusty game.
+    /// It represents the game state,
+    /// when the user is no longer in the main menu.
+    /// </summary>
+    /// <author>Tomás Pinto</author>
+    /// <version>19th May 2022</version>
     public class GameState : State
     {
 

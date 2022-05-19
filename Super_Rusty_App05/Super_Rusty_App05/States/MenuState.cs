@@ -8,6 +8,13 @@ using Super_Rusty_App05.States;
 
 namespace Super_Rusty_App05
 {
+    /// <summary>
+    /// This class is part of the Super Rusty game.
+    /// It represents the main menu state,
+    /// when the user is directed when not lauching the game.
+    /// </summary>
+    /// <author>Tomás Pinto</author>
+    /// <version>19th May 2022</version>
     public class MenuState : State
     {
         private List<Component> _components;
@@ -51,6 +58,7 @@ namespace Super_Rusty_App05
             spriteBatch.End();
         }
 
+        // chanegs state of the game and starts the game
         private void NewGameButton_Click(object sender, EventArgs e)
         {
             _game.ChangeState(new GameState(_game, _graphicsDevice, _content));
@@ -68,6 +76,7 @@ namespace Super_Rusty_App05
                 component.Update(gameTime);
         }
 
+        // quits the game on click
         private void QuitGameButton_Click(object sender, EventArgs e)
         {
             _game.Exit();

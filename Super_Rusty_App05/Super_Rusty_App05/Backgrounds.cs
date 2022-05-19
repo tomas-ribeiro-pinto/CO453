@@ -1,12 +1,16 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Super_Rusty_App05.States;
 
 namespace App05_Super_Rusty
 {
+    /// <summary>
+    /// This class is responsible for the backgrounds
+    /// and its scrolling in the Super Rusty game.
+    /// </summary>
+    /// <author>Tomás Pinto</author>
+    /// <version>19th May 2022</version>
     public class Backgrounds
     {
         public Texture2D texture;
@@ -28,15 +32,21 @@ namespace App05_Super_Rusty
 
         public void Update()
         {
+            // Scroll the background when the player gets to the middle of the screen
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                if (Game1.rusty.Position.X >= 400 && !IsLastBackground())
+                if (Game1.rusty.Position.X >= Game1.SCREEN_WIDTH/2 && !IsLastBackground())
                 {
-                    rectangle.X -= 3;
+                    rectangle.X -= Game1.TRANSLATION;
                 }                    
             }
         }
 
+        /// <summary>
+        /// This method checks if the current background is the last.
+        /// If it returns true, it stops scrolling.
+        /// </summary>
+        /// <returns>true or false</returns>
         public static bool IsLastBackground()
         {
             var lastItem = Game1.Scrollings.Last();

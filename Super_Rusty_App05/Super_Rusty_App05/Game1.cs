@@ -1,68 +1,75 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Timers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Super_Rusty_App05;
 using Super_Rusty_App05.States;
 
 namespace App05_Super_Rusty
 {
+    /// <summary>
+    /// This class is responsible to run the
+    /// Super Rusty game,set the sprites and backgrounds.
+    /// It starts the game with a main menu state
+    /// </summary>
+    /// <author>Tomás Pinto</author>
+    /// <version>19th May 2022</version>
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
+
         private SpriteBatch playerBatch;
+        // Separate SpriteBatch for backgrounds
+        // (can be removed in further refactorings)
         private SpriteBatch backgroundBatch;
 
+        // The player
         public static Rusty rusty;
-        public bool GameOver = true;
-        public static bool lostGame = false;
-        public static bool wonGame = false;
 
+        // Checks if the game is over or not
+        public bool GameOver = true;
+        // Checks if player lost all lives
+        public static bool lostGame = false;
+        // Checks if player reached the end of the world alive
+        public static bool wonGame = false;
+        // Checks if the game has started
+        public static bool gameStarted = false;
+
+        // Player Lives
         private OtherSprite heart1;
         private OtherSprite heart2;
 
+        // Timer used to display message backgrounds
         public static int Timer = 1000;
 
+        // Scrolling and other backgrounds
         private Scrolling background;
         public Scrolling GameLostBackground;
         public Scrolling GameWonBackground;
-        private Scrolling scrolling1;
-        private Scrolling scrolling2;
-        private Scrolling scrolling3;
 
-        private Block block1;
-        private Block block2;
-        private Block block3;
-        private Block block4;
-        private Block block5;
+        // Special blocks that have enemies on top
+        public static Block block2;
+        public static Block block7;
 
         public SpriteFont Arial;
 
-        private Beer beer1;
-        private Beer beer2;
-        private Beer beer3;
-        private Beer beer4;
-        private Beer beer5;
-
         public static List<Block> blocks;
         public static List<Scrolling> Scrollings;
-
         private List<Beer> beers;
 
-        // Police Enemies
+        // Police Enemies and special enemies
         List<Police> enemies = new List<Police>();
+        private Police enemyBlock2;
+        private Police enemyBlock7;
         Random random = new Random();
 
         // States
         private State _currentState;
         private State _nextState;
 
-        public static bool gameStarted = false;
-
+        // All the sound effects
         public static SoundEffect JumpEffect;
         public static SoundEffect BeerEffect;
         public static SoundEffect WinEffect;
@@ -70,8 +77,11 @@ namespace App05_Super_Rusty
         public static SoundEffect BgMusic;
         public static SoundEffectInstance music;
 
+        // Default position in the Y axis of the player 
         public const int Y_GROUND = 360;
         public const int SCREEN_WIDTH = 800;
+        // Translation of the background
+        public const int TRANSLATION = 3;
 
         public Game1()
         {
@@ -82,11 +92,12 @@ namespace App05_Super_Rusty
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
+        /// <summary>
+        /// Change from Main Menu to game
+        /// </summary>
         public void ChangeState(State state)
         {
             _nextState = state;
@@ -94,6 +105,9 @@ namespace App05_Super_Rusty
             music.Play();
         }
 
+        /// <summary>
+        /// Load all the sprites
+        /// </summary>
         protected override void LoadContent()
         {
             playerBatch = new SpriteBatch(GraphicsDevice);
@@ -113,16 +127,23 @@ namespace App05_Super_Rusty
             GameWonBackground = new Scrolling(Content.Load<Texture2D>("congrats"), new Rectangle(0, 0, 800, 480));
         }
 
-
+        // Seconds for spawn
         float spawn = 0;
 
+        /// <summary>
+        /// The update method will make the sprites
+        /// update all their state while the game is running
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected override void Update(GameTime gameTime)
         {
-
+            // If player is playing the game
             if (gameStarted && !GameOver)
             {
-                rusty.Update(JumpEffect, gameTime, blocks);
+                // Check if the game is over
                 IsGameOver();
+
+                rusty.Update(JumpEffect, gameTime, blocks);
 
                 foreach (Scrolling scrolling in Scrollings)
                     scrolling.Update();
@@ -141,9 +162,13 @@ namespace App05_Super_Rusty
                     enemy.Update();
                 }
 
+                enemyBlock2.Update();
+                enemyBlock7.Update();
+
                 LoadEnemies();
             }
 
+            // If player is in the main menu
             else
             {
                 _currentState.Update(gameTime);
@@ -152,52 +177,37 @@ namespace App05_Super_Rusty
             base.Update(gameTime);
         }
 
-        public void LoadEnemies()
-        {
-            int randX = random.Next(810, 900);
-
-            if (spawn >= 2)
-            {
-                spawn = 0;
-                if (enemies.Count() < 2 && !Scrolling.IsLastBackground())
-                {
-                    enemies.Add(new Police(Content.Load<Texture2D>("police_man"), new Vector2(randX, Y_GROUND)));
-                }
-            }
-
-            for (int i = 0; i < enemies.Count(); i++)
-            {
-                if (!enemies[i].isVisible)
-                {
-                    enemies.RemoveAt(i);
-                    i--;
-                }
-            }
-        }
-
+        /// <summary>
+        /// Method responsible to draw all the components and sprites
+        /// and check for state changes
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.LightSkyBlue);
             _currentState.Draw(gameTime, playerBatch, background);
 
+            // If the player just lauched the game after losing it
             if (gameStarted && GameOver)
             {
                 GameOver = false;
                 ReloadGame();
             }
 
+            // If the player lauched the game
             if (gameStarted && !GameOver)
             {
                 backgroundBatch.Begin();
                 foreach (Scrolling scrolling in Scrollings)
                     scrolling.Draw(backgroundBatch);
+                // Score label
                 backgroundBatch.DrawString(Arial, $"Beers: {rusty.Score}", new Vector2(10, 10), Color.Black);
                 backgroundBatch.End();
 
                 playerBatch.Begin();
                 rusty.Draw(playerBatch);
 
-                // Heart Lives for the player on right top of the screen
+                // Heart Lives for the player on the right top of the screen
                 if (rusty.Lives == 2)
                 {
                     heart1.Draw(playerBatch);
@@ -213,6 +223,10 @@ namespace App05_Super_Rusty
                         beer.Draw(playerBatch);
                 foreach (Police enemy in enemies)
                     enemy.Draw(playerBatch);
+
+                enemyBlock2.Draw(playerBatch);
+                enemyBlock7.Draw(playerBatch);
+
                 foreach (Block block in blocks)
                     block.Draw(playerBatch);
                 playerBatch.End();
@@ -220,9 +234,10 @@ namespace App05_Super_Rusty
 
             playerBatch.Begin();
 
-
+            // if the player lost all lives
             if (lostGame)
             {
+                // check if timer has reached the end and return to main menu
                 if (Timer <= 0)
                 {
                     System.Threading.Thread.Sleep(2500);
@@ -231,6 +246,7 @@ namespace App05_Super_Rusty
                     GameOver = true;
                     Timer = 1000;
                 }
+                // start the timer and display game over message
                 else
                 {
                     GameLostBackground.Draw(playerBatch);
@@ -239,6 +255,7 @@ namespace App05_Super_Rusty
                 }
             }
 
+            // if the player ahs reached the end of the level
             if (wonGame)
             {
 
@@ -250,6 +267,7 @@ namespace App05_Super_Rusty
                     GameOver = true;
                     Timer = 1000;
                 }
+                // start the timer and display game won message
                 else
                 {
                     GameWonBackground.Draw(playerBatch);
@@ -263,6 +281,10 @@ namespace App05_Super_Rusty
             base.Draw(gameTime);
         }
 
+        /// <summary>
+        /// If the the player lost or won the game, the method
+        /// stops the background music and changes states.
+        /// </summary>
         public void IsGameOver()
         {
             if (Scrolling.IsLastBackground() && rusty.Position.X >= 650)
@@ -278,31 +300,79 @@ namespace App05_Super_Rusty
             }
         }
 
+        /// <summary>
+        /// Load the ground enemies randomly each 2 seconds
+        /// </summary>
+        public void LoadEnemies()
+        {
+            int randX = random.Next(810, 900);
+
+            // Spawn at each 2 seconds
+            if (spawn >= 2)
+            {
+                spawn = 0;
+
+                if (enemies.Count() < 3 && !Scrolling.IsLastBackground())
+                {
+                    enemies.Add(new Police(Content.Load<Texture2D>("police_man"), new Vector2(randX, Y_GROUND), false));
+                }
+            }
+
+            // take the enemies out when they are out the screen
+            for (int i = 0; i < enemies.Count(); i++)
+            {
+                if (!enemies[i].isVisible)
+                {
+                    enemies.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Load all the collectable beers in the game
+        /// </summary>
         public void LoadBeers()
         {
-            beer1 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(460, Y_GROUND));
-            beer2 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(430, Y_GROUND - 190));
-            beer3 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(560, Y_GROUND - 190));
-            beer4 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(1380, Y_GROUND - 190));
-            beer5 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(1360, Y_GROUND));
+            Beer beer1 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(460, Y_GROUND));
+            Beer beer2 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(430, Y_GROUND - 190));
+            Beer beer3 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(560, Y_GROUND - 190));
+            Beer beer4 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(1380, Y_GROUND - 190));
+            Beer beer5 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(1360, Y_GROUND));
+            Beer beer6 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(1460, Y_GROUND - 300));
+            Beer beer7 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(2560, Y_GROUND - 190));
+            Beer beer8 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(2860, Y_GROUND - 50));
+            Beer beer9 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(2860, Y_GROUND - 300));
+            Beer beer10 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(3300, Y_GROUND - 100));
+            Beer beer11 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(1900, Y_GROUND));
+            Beer beer12 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(2050, Y_GROUND));
+            Beer beer13 = new Beer(Content.Load<Texture2D>("beer_outline"), new Vector2(2990, Y_GROUND - 300));
 
             beers = new List<Beer>
             {
-                beer1,
-                beer2,
-                beer3,
-                beer4,
-                beer5
+                beer1,beer2,beer3,
+                beer4,beer5,beer6,
+                beer7,beer8,beer9,
+                beer10,beer11,beer12,
+                beer13
             };
         }
 
+        /// <summary>
+        /// Loads all the block platforms in the game
+        /// </summary>
         public void LoadBlocks()
         {
-            block1 = new Block(Content.Load<Texture2D>("3_block"), new Vector2(230, Y_GROUND - 50));
+            Block block1 = new Block(Content.Load<Texture2D>("3_block"), new Vector2(230, Y_GROUND - 50));
+            // special block (enemy on top)
             block2 = new Block(Content.Load<Texture2D>("5_block"), new Vector2(420, Y_GROUND - 150));
-            block3 = new Block(Content.Load<Texture2D>("5_block"), new Vector2(950, Y_GROUND - 50));
-            block4 = new Block(Content.Load<Texture2D>("3_block"), new Vector2(1300, Y_GROUND - 150));
-            block5 = new Block(Content.Load<Texture2D>("3_block"), new Vector2(1900, Y_GROUND - 50));
+            Block block3 = new Block(Content.Load<Texture2D>("5_block"), new Vector2(950, Y_GROUND - 50));
+            Block block4 = new Block(Content.Load<Texture2D>("3_block"), new Vector2(1300, Y_GROUND - 150));
+            Block block5 = new Block(Content.Load<Texture2D>("3_block"), new Vector2(2500, Y_GROUND - 50));
+            Block block6 = new Block(Content.Load<Texture2D>("5_block"), new Vector2(2650, Y_GROUND - 150));
+            // special block (enemy on top)
+            block7 = new Block(Content.Load<Texture2D>("5_block"), new Vector2(2850, Y_GROUND - 230));
+            Block block8 = new Block(Content.Load<Texture2D>("3_block"), new Vector2(3200, Y_GROUND - 50));
 
             blocks = new List<Block>
             {
@@ -310,10 +380,16 @@ namespace App05_Super_Rusty
                 block2,
                 block3,
                 block4,
-                block5
+                block5,
+                block6,
+                block7,
+                block8
             };
         }
 
+        /// <summary>
+        /// Loads all the backgrounds and the player
+        /// </summary>
         public void LoadBackgrounds()
         {
             rusty = new Rusty(Content.Load<Texture2D>("deer_still"), new Vector2(20, Y_GROUND));
@@ -321,27 +397,46 @@ namespace App05_Super_Rusty
             heart1 = new OtherSprite(Content.Load<Texture2D>("final_heart"), new Vector2(700, 20));
             heart2 = new OtherSprite(Content.Load<Texture2D>("final_heart"), new Vector2(740, 20));
 
-            scrolling1 = new Scrolling(Content.Load<Texture2D>("background0"), new Rectangle(0, 0, 800, 500));
-            scrolling2 = new Scrolling(Content.Load<Texture2D>("background1"), new Rectangle(SCREEN_WIDTH * 1, 0, 800, 500));
-            scrolling3 = new Scrolling(Content.Load<Texture2D>("background2"), new Rectangle(SCREEN_WIDTH * 2, 0, 800, 500));
+            Scrolling scrolling1 = new Scrolling(Content.Load<Texture2D>("background0"), new Rectangle(0, 0, 800, 500));
+            Scrolling scrolling2 = new Scrolling(Content.Load<Texture2D>("background1"), new Rectangle(SCREEN_WIDTH * 1, 0, 800, 500));
+            Scrolling scrolling3 = new Scrolling(Content.Load<Texture2D>("background2"), new Rectangle(SCREEN_WIDTH * 2, 0, 800, 500));
+            Scrolling scrolling4 = new Scrolling(Content.Load<Texture2D>("background3"), new Rectangle(SCREEN_WIDTH * 3, 0, 800, 500));
+            Scrolling scrolling5 = new Scrolling(Content.Load<Texture2D>("background4"), new Rectangle(SCREEN_WIDTH * 4, 0, 800, 500));
 
             Scrollings = new List<Scrolling>
             {
                 scrolling1,
                 scrolling2,
-                scrolling3
+                scrolling3,
+                scrolling4,
+                scrolling5
             };
         }
 
+        /// <summary>
+        /// Reloads the game to start again
+        /// </summary>
         public void ReloadGame()
         {
             for (int i = 0; i < enemies.Count(); i++)
                 enemies.RemoveAt(i);
+
+            // Load special enemies on blocks -> needs refactoring
+            enemyBlock2 = new Police(Content.Load<Texture2D>("police_man"), new Vector2(430, Y_GROUND - 210), true);
+            enemyBlock7 = new Police(Content.Load<Texture2D>("police_man"), new Vector2(2860, Y_GROUND - 290), true);
+
             LoadBeers();
             LoadBlocks();
             LoadBackgrounds();
         }
 
+        /// <summary>
+        /// This method is used to check if a number is within an interval
+        /// </summary>
+        /// <param name="value">The value to check</param>
+        /// <param name="lowBound">The lower bound of the interval</param>
+        /// <param name="highBound">The higher bound of the interval</param>
+        /// <returns>true or false</returns>
         public static bool CheckInterval(float value, float lowBound, float highBound)
         {
             if (value >= lowBound && value <= highBound)
@@ -349,6 +444,9 @@ namespace App05_Super_Rusty
             return false;
         }
 
+        /// <summary>
+        /// Starts the timer by constantly subtracting the number
+        /// </summary>
         private void startTimer()
         {
             for (int i = 1; i <= 1000; i++)
