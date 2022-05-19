@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Super_Rusty_App05.States;
 
 namespace Super_Rusty_App05
 {
@@ -47,7 +48,8 @@ namespace Super_Rusty_App05
                 _position.X -= 3;
             }
 
-            if (IsVisible && Game1.CheckInterval(Game1.rusty.Position.X, _position.X - Game1.rusty.Texture.Width, _position.X + Game1.rusty.Texture.Width) && Game1.CheckInterval(Game1.rusty.Position.Y, _position.Y - Game1.rusty.Texture.Height, _position.Y + Game1.rusty.Texture.Width))
+            if (IsVisible && Game1.CheckInterval(Game1.rusty.Position.X, _position.X - Game1.rusty.Texture.Width, _position.X + Game1.rusty.Texture.Width) &&
+                Game1.CheckInterval(Game1.rusty.Position.Y, _position.Y - Game1.rusty.Texture.Height, _position.Y + Game1.rusty.Texture.Width))
             {
                 Game1.rusty.Score++;
                 IsVisible = false;

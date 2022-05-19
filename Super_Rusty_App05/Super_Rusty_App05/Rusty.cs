@@ -13,12 +13,12 @@ namespace App05_Super_Rusty
         public Vector2 Position;
         public Vector2 Velocity;
 
-        private Rectangle oldRectangle;
+        //private Rectangle oldRectangle;
 
         public bool hasJumped;
         public bool aboveGround;
         public int Score;
-        public int Lives = 1;
+        public int Lives = 2;
 
         public const int TEXTURE_WIDTH = 58;
         public const int TEXTURE_HEIGHT = 60;
@@ -27,7 +27,7 @@ namespace App05_Super_Rusty
         {
             Texture = texture;
             Position = position;
-            oldRectangle = new Rectangle(0, 0, Game1.Y_GROUND , 0);
+            //oldRectangle = new Rectangle(0, 0, Game1.Y_GROUND , 0);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -152,6 +152,7 @@ namespace App05_Super_Rusty
                 Rectangle.Right > block.Rectangle.Left &&
                 Rectangle.Left < block.Rectangle.Right;
         }
+        #endregion
 
         public bool OnTopOfBlock()
         {
@@ -161,8 +162,6 @@ namespace App05_Super_Rusty
 
             return false;
         }
-        #endregion
-
         public Rectangle GetOldBlock()
         {
             foreach (Block block in Game1.blocks)

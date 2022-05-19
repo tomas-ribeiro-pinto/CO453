@@ -3,6 +3,7 @@ using App05_Super_Rusty;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Super_Rusty_App05.States;
 
 namespace Super_Rusty_App05
 {
@@ -11,6 +12,8 @@ namespace Super_Rusty_App05
         private Texture2D _texture;
         private Vector2 _position;
         private Vector2 _velocity;
+
+        private int timer = 1000;
 
         public bool isVisible = true;
 
@@ -50,9 +53,24 @@ namespace Super_Rusty_App05
             if (Game1.CheckInterval(Game1.rusty.Position.X, _position.X - 30, _position.X + 30) &&
                 Game1.CheckInterval(Game1.rusty.Position.Y, _position.Y - 50, _position.Y + 50))
             {
-                Game1.rusty.Lives--;
+                if(timer == 1000)
+                {
+                    Game1.rusty.Lives--;
+                    Game1.LostLifeEffect.Play();
+                    startTimer();
+                }
+                if (timer == 0)
+                {
+                    Game1.rusty.Lives--;
+                    Game1.lostGame = true;
+                }
             }
-           
+        }
+
+        private void startTimer()
+        {
+            for (int i = 1; i <= 1000; i++)
+                timer -= i;
         }
     }
 }
